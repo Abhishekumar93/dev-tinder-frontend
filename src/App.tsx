@@ -1,5 +1,12 @@
+import { Navbar } from "./Components";
+
 function App() {
-  return <h1>Dev Tinder Web</h1>;
+  return (
+    <>
+      <Navbar />
+      <h1>Dev Tinder Web</h1>
+    </>
+  );
 }
 
 export default App;
