@@ -2,8 +2,11 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl" href="/">
-          Dev Tinder
+        <a
+          className="btn btn-ghost text-xl hover:bg-transparent hover:border-none hover:scale-105 transform transition duration-300"
+          href="/"
+        >
+          <span className="text-teal-700 dark:text-teal-300">Dev Tinder</span>
         </a>
       </div>
       <div className="dropdown dropdown-end">
