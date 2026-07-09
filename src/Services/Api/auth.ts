@@ -1,26 +1,28 @@
-import { toast } from 'sonner';
-import type { LoginForm } from '../../interfacesAndTypes';
-import { apiClient } from '../interceptor';
-import { isAxiosError } from 'axios';
-import { AUTH_CONSTANTS, COMMON_CONSTANTS } from '../../constants';
+import type {
+  ApiMutation,
+  LoginForm,
+  LoginPayload,
+} from '../../interfacesAndTypes';
+import { AUTH_CONSTANTS, HTTP_METHOD } from '../../constants';
 
 const { LOGIN_FAILED } = AUTH_CONSTANTS;
-const { SOMETHING_WENT_WRONG } = COMMON_CONSTANTS;
+const { POST } = HTTP_METHOD;
 
-export const loginUser = async (loginDetail: LoginForm) => {
-  try {
-    const { email, loginMethod, otp, password } = loginDetail;
-    const payload = {
-      email,
-      ...(loginMethod === 'password' ? { password } : { otp }),
-    };
-    const response = await apiClient.post('/auth/login', payload);
-    return response.data;
-  } catch (error) {
-    if (isAxiosError(error)) {
-      toast.error(error.response?.data?.message || LOGIN_FAILED);
-    } else {
-      toast.error(SOMETHING_WENT_WRONG);
-    }
-  }
+export const loginUser = (
+  loginDetail: LoginForm
+): ApiMutation<LoginPayload> => {
+  const { email, loginMethod, otp, password } = loginDetail;
+  const payload: LoginPayload = {
+    email,
+    ...(loginMethod === 'password' ? { password } : { otp }),
+  };
+
+  return {
+    url: '/auth/login',
+    method: POST,
+    body: payload,
+    displaySuccessToast: true,
+    displayErrorToast: true,
+    errorToastMessage: LOGIN_FAILED,
+  };
 };

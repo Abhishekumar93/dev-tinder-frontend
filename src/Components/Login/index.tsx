@@ -1,11 +1,18 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { InputFields } from '../Atoms';
 import type { LoginForm } from '../../interfacesAndTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../SchemaValidation';
 import { loginUser } from '../../Services';
+import useApiMutation from '../../Hooks/useApiMutation';
+import { Eye, EyeClosed } from 'lucide-react';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { executeMutation, isMutating } = useApiMutation();
+
   const {
     handleSubmit,
     control,
@@ -21,10 +28,13 @@ const Login = () => {
     },
   });
 
+  const [passwordHidden, setPasswordHidden] = useState(true);
+
   const currentLoginMethod = useWatch({
     control,
     name: 'loginMethod',
   });
+  const isDisabled = !isDirty || !isValid || isMutating;
 
   const handleLoginMethodChange = () => {
     setValue(
@@ -32,9 +42,17 @@ const Login = () => {
       currentLoginMethod === 'password' ? 'otp' : 'password'
     );
   };
+  const handlePasswordToggle = () => {
+    setPasswordHidden((prev) => !prev);
+  };
   const onSubmit: SubmitHandler<LoginForm> = async (data) => {
-    const response = await loginUser(data);
+    const requestBody = loginUser(data);
+    const response = await executeMutation(requestBody);
     console.log(response, 'response devtinder');
+    if (response?.status === 200 && response?.data) {
+      navigate('/');
+      localStorage.setItem('loggedInUser', JSON.stringify(response.data));
+    }
   };
 
   return (
@@ -55,12 +73,30 @@ const Login = () => {
             />
             {currentLoginMethod === 'password' ? (
               <InputFields
-                type="password"
+                type={passwordHidden ? 'password' : 'text'}
                 label="Password"
                 placeholder="Enter your password"
                 name="password"
                 control={control}
                 error={errors.password?.message}
+                iconPosition="end"
+                icon={
+                  passwordHidden ? (
+                    <EyeClosed
+                      width={20}
+                      height={20}
+                      onClick={handlePasswordToggle}
+                      cursor="pointer"
+                    />
+                  ) : (
+                    <Eye
+                      width={20}
+                      height={20}
+                      onClick={handlePasswordToggle}
+                      cursor="pointer"
+                    />
+                  )
+                }
               />
             ) : (
               <InputFields
@@ -74,7 +110,7 @@ const Login = () => {
             <div className="card-actions justify-between mt-4">
               <button
                 type="submit"
-                className={`btn btn-primary bg-base-100 text-black dark:text-white hover:scale-105 transform transition duration-300 ${isDirty || isValid ? '' : 'btn-disabled opacity-50'}`}
+                className={`btn btn-primary bg-base-100 text-black dark:text-white hover:scale-105 transform transition duration-300 ${isDisabled ? 'btn-disabled opacity-50' : ''}`}
               >
                 Login
               </button>
