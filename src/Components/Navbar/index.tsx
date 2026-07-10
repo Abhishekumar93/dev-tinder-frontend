@@ -1,4 +1,8 @@
+import { useAppStore } from '../../Store';
+
 const Navbar = () => {
+  const user = useAppStore((state) => state.user);
+
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
@@ -13,8 +17,11 @@ const Navbar = () => {
         <button className="avatar padding-0">
           <div className="w-10 h-10 rounded-full">
             <img
-              alt="Tailwind CSS Navbar component"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              alt={user ? `${user.firstName}_${user.lastName}` : 'Profile Pic'}
+              src={
+                user?.profilePic ||
+                'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp'
+              }
             />
           </div>
         </button>

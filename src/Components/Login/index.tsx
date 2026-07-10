@@ -2,16 +2,18 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { InputFields } from '../Atoms';
-import type { LoginForm } from '../../interfacesAndTypes';
+import type { IUser, LoginForm } from '../../interfacesAndTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../SchemaValidation';
 import { loginUser } from '../../Services';
 import useApiMutation from '../../Hooks/useApiMutation';
 import { Eye, EyeClosed } from 'lucide-react';
+import { useAppStore } from '../../Store';
 
 const Login = () => {
   const navigate = useNavigate();
   const { executeMutation, isMutating } = useApiMutation();
+  const setUser = useAppStore((state) => state.setUser);
 
   const {
     handleSubmit,
@@ -48,10 +50,9 @@ const Login = () => {
   const onSubmit: SubmitHandler<LoginForm> = async (data) => {
     const requestBody = loginUser(data);
     const response = await executeMutation(requestBody);
-    console.log(response, 'response devtinder');
     if (response?.status === 200 && response?.data) {
+      setUser(response.data as IUser);
       navigate('/');
-      localStorage.setItem('loggedInUser', JSON.stringify(response.data));
     }
   };
 
