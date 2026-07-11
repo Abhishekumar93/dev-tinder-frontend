@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Body from './Body';
-import { Login } from './Components';
+import { Login, Signup } from './Components';
 import { ProtectedRoute, PublicRoute } from './Routes';
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
         <Route path="/" element={<Body />}>
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<h1>Profile</h1>} />

@@ -10,7 +10,7 @@ import { Eye, EyeClosed } from 'lucide-react';
 import { useAppStore } from '../../Store';
 import { useApiMutation } from '../../Hooks';
 
-export const Login = () => {
+export const Signup = () => {
   const navigate = useNavigate();
   const { executeMutation, isMutating } = useApiMutation();
   const setUser = useAppStore((state) => state.setUser);
@@ -61,7 +61,7 @@ export const Login = () => {
       <div className="card bg-base-200 dark:bg-base-300 w-96 shadow-md">
         <div className="card-body">
           <h2 className="card-title text-3xl mb-3">
-            <span className="text-center w-100">Login</span>
+            <span className="text-center w-100">Signup</span>
           </h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <InputFields
@@ -125,9 +125,9 @@ export const Login = () => {
             </div>
           </form>
           <div className="mt-4">
-            Don't have an account?{' '}
-            <Link to="/signup" className="text-blue-400!">
-              Signup
+            Already have an account?{' '}
+            <Link to="/login" className="text-blue-400!">
+              Login
             </Link>
           </div>
         </div>
