@@ -1,4 +1,5 @@
 import axios, { type AxiosError } from 'axios';
+import { useAppStore } from '../Store';
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL ?? '',
@@ -22,6 +23,9 @@ apiClient.interceptors.response.use(
   (error: unknown) => {
     if (isUnauthorizedError(error) && !isHandlingUnauthorized) {
       isHandlingUnauthorized = true;
+      const logoutUser = useAppStore((state) => state.logoutUser);
+      logoutUser();
+      if (location.pathname !== '/login') location.replace('/login');
     }
 
     return Promise.reject(error);

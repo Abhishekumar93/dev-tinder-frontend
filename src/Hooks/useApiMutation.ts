@@ -8,7 +8,7 @@ import { COMMON_CONSTANTS } from '../constants';
 
 const { SOMETHING_WENT_WRONG } = COMMON_CONSTANTS;
 
-const useApiMutation = <
+export const useApiMutation = <
   TResponse extends MutationResponse<unknown> = MutationResponse<unknown>,
   TPayload = unknown,
 >() => {
@@ -48,5 +48,3 @@ const useApiMutation = <
 
   return { executeMutation, isMutating };
 };
-
-export default useApiMutation;

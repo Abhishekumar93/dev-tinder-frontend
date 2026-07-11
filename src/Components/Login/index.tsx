@@ -6,11 +6,11 @@ import type { IUser, LoginForm } from '../../interfacesAndTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../SchemaValidation';
 import { loginUser } from '../../Services';
-import useApiMutation from '../../Hooks/useApiMutation';
 import { Eye, EyeClosed } from 'lucide-react';
 import { useAppStore } from '../../Store';
+import { useApiMutation } from '../../Hooks';
 
-const Login = () => {
+export const Login = () => {
   const navigate = useNavigate();
   const { executeMutation, isMutating } = useApiMutation();
   const setUser = useAppStore((state) => state.setUser);
@@ -129,5 +129,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

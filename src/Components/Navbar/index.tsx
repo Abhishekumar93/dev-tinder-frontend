@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import useApiMutation from '../../Hooks/useApiMutation';
 import { useAppStore } from '../../Store';
 import { logoutUser } from '../../Services/Api/auth';
+import { useApiMutation } from '../../Hooks';
 
-const Navbar = () => {
+export const Navbar = () => {
   const navigate = useNavigate();
   const { executeMutation, isMutating } = useApiMutation();
   const user = useAppStore((state) => state.user);
@@ -18,7 +18,7 @@ const Navbar = () => {
   };
   const handleProfileAuth = async () => {
     if (user) await userLogout();
-    if (location.pathname !== '/login') navigate('/login');
+    if (location.pathname !== '/login') navigate('/login', { replace: true });
   };
 
   return (
@@ -60,5 +60,3 @@ const Navbar = () => {
     </div>
   );
 };
-
-export default Navbar;
