@@ -6,5 +6,5 @@ export const createAuthSlice: StateCreator<AuthSlice, [], [], AuthSlice> = (
 ) => ({
   user: null,
   setUser: (user) => set({ user }),
-  setLogout: () => set({ user: null }),
+  logoutUser: () => set({ user: null }),
 });

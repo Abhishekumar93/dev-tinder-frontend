@@ -5,3 +5,7 @@ export const HTTP_METHOD = {
   PATCH: 'PATCH',
   DELETE: 'DELETE',
 } as const;
+
+export const API_BASE_URL = {
+  auth: '/auth',
+};

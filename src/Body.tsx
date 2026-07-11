@@ -5,7 +5,7 @@ import { Toaster } from 'sonner';
 const Body = () => {
   return (
     <>
-      <Toaster position="top-right" richColors />
+      <Toaster position="top-right" richColors closeButton />
       <Navbar />
       <Outlet />
       <Footer />

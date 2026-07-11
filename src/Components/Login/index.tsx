@@ -111,7 +111,7 @@ const Login = () => {
             <div className="card-actions justify-between mt-4">
               <button
                 type="submit"
-                className={`btn btn-primary bg-base-100 text-black dark:text-white hover:scale-105 transform transition duration-300 ${isDisabled ? 'btn-disabled opacity-50' : ''}`}
+                className={`btn btn-primary bg-base-100 text-black dark:text-white hover:scale-105 transform transition duration-300 ${isDisabled ? 'button-disabled' : ''}`}
               >
                 Login
               </button>

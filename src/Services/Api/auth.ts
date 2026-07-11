@@ -3,10 +3,11 @@ import type {
   LoginForm,
   LoginPayload,
 } from '../../interfacesAndTypes';
-import { AUTH_CONSTANTS, HTTP_METHOD } from '../../constants';
+import { API_BASE_URL, AUTH_CONSTANTS, HTTP_METHOD } from '../../constants';
 
-const { LOGIN_FAILED } = AUTH_CONSTANTS;
+const { LOGIN_FAILED, LOGOUT_FAILED } = AUTH_CONSTANTS;
 const { POST } = HTTP_METHOD;
+const { auth } = API_BASE_URL;
 
 export const loginUser = (
   loginDetail: LoginForm
@@ -18,7 +19,7 @@ export const loginUser = (
   };
 
   return {
-    url: '/auth/login',
+    url: `${auth}/login`,
     method: POST,
     body: payload,
     displaySuccessToast: true,
@@ -26,3 +27,11 @@ export const loginUser = (
     errorToastMessage: LOGIN_FAILED,
   };
 };
+
+export const logoutUser = () => ({
+  url: `${auth}/logout`,
+  method: POST,
+  displaySuccessToast: true,
+  displayErrorToast: true,
+  errorToastMessage: LOGOUT_FAILED,
+});
