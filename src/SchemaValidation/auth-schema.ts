@@ -44,23 +44,14 @@ export const signupSchema = z
   .object({
     firstName: z.string().min(1, 'First name is required'),
     lastName: z.string().min(1, 'Last name is required'),
-    email: z
-      .string()
-      .min(1, 'Email is required')
-      .email('Please enter a valid email'),
+    ...emailSchema.shape,
+    ...passwordSchema.shape,
     age: z.coerce
       .number({ message: 'Age is required' })
       .positive('Age must be greater than 0'),
     gender: z.string().min(1, 'Gender is required'),
     bio: z.string().min(1, 'Bio is required'),
     about: z.string().optional(),
-    password: z
-      .string()
-      .min(8, 'Password must be at least 8 characters')
-      .regex(/[A-Z]/, 'Password must include at least one uppercase letter')
-      .regex(/[a-z]/, 'Password must include at least one lowercase letter')
-      .regex(/\d/, 'Password must include at least one number')
-      .regex(/[^A-Za-z0-9]/, 'Password must include at least one symbol'),
     confirmPassword: z.string().min(1, 'Please confirm your password'),
   })
   .refine((data) => data.password === data.confirmPassword, {

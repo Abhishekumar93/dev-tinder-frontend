@@ -23,3 +23,4 @@ export type DisplaySignupPasswordInput = {
   label: string;
   placeholder: string;
 };
+export type SignupPayload = Omit<SignupForm, 'confirmPassword'>;

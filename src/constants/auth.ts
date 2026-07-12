@@ -6,4 +6,5 @@ export const AUTH_CONSTANTS = {
   OTP_REQUIRED: 'OTP is required',
   LOGIN_FAILED: 'Login failed. Please try again.',
   LOGOUT_FAILED: 'Logout failed. Please try again.',
+  SIGNUP_FAILED: 'Signup failed. Please try again.',
 };

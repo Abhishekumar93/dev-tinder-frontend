@@ -2,12 +2,29 @@ import type {
   ApiMutation,
   LoginForm,
   LoginPayload,
+  SignupForm,
+  SignupPayload,
 } from '../../interfacesAndTypes';
 import { API_BASE_URL, AUTH_CONSTANTS, HTTP_METHOD } from '../../constants';
 
-const { LOGIN_FAILED, LOGOUT_FAILED } = AUTH_CONSTANTS;
+const { LOGIN_FAILED, LOGOUT_FAILED, SIGNUP_FAILED } = AUTH_CONSTANTS;
 const { POST } = HTTP_METHOD;
 const { auth } = API_BASE_URL;
+
+export const signupUser = (
+  signupDetail: SignupForm
+): ApiMutation<SignupPayload> => {
+  const { confirmPassword: _confirmPassword, ...args } = { ...signupDetail };
+
+  return {
+    url: `${auth}/signup`,
+    method: POST,
+    body: args,
+    displaySuccessToast: true,
+    displayErrorToast: true,
+    errorToastMessage: SIGNUP_FAILED,
+  };
+};
 
 export const loginUser = (
   loginDetail: LoginForm

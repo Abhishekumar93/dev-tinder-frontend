@@ -1,2 +1,2 @@
 export { apiClient } from './interceptor';
-export { loginUser } from './Api/auth';
+export { loginUser, signupUser, logoutUser } from './Api/auth';

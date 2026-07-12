@@ -4,18 +4,18 @@ import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type {
   DisplaySignupPasswordInput,
-  IUser,
   PasswordFieldType,
   SignupForm,
 } from '../../interfacesAndTypes';
 import { signupSchema } from '../../SchemaValidation';
-import { useAppStore } from '../../Store';
 import FormField from '../Atoms/FormField';
 import { Eye, EyeClosed } from 'lucide-react';
+import { signupUser } from '../../Services';
+import { useApiMutation } from '../../Hooks';
 
 export const Signup = () => {
   const navigate = useNavigate();
-  const setUser = useAppStore((state) => state.setUser);
+  const { executeMutation, isMutating } = useApiMutation();
 
   const [currentStep, setCurrentStep] = useState<1 | 2>(1);
   const [passwordHiddenField, setPasswordHiddenField] = useState({
@@ -81,16 +81,10 @@ export const Signup = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<SignupForm> = (data) => {
-    setUser({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      age: data.age,
-      email: data.email,
-      gender: data.gender,
-      about: data.about || data.bio,
-    } as IUser);
-    navigate('/');
+  const onSubmit: SubmitHandler<SignupForm> = async (data) => {
+    const requestBody = signupUser(data);
+    const response = await executeMutation(requestBody);
+    if (response?.status === 201) navigate('/login');
   };
   const handlePasswordToggle = (fieldType: PasswordFieldType) => {
     setPasswordHiddenField((prev) => ({
@@ -271,7 +265,10 @@ export const Signup = () => {
                   >
                     Back
                   </button>
-                  <button type="submit" className="btn-class">
+                  <button
+                    type="submit"
+                    className={`btn-class ${isMutating ? 'button-disabled' : ''}`}
+                  >
                     Sign Up
                   </button>
                 </>

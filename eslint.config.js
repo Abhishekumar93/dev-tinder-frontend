@@ -21,6 +21,14 @@ export default defineConfig([
     },
     rules: {
       'react-hooks/exhaustive-deps': 'off',
+      'typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          varsIgnorePattern: '^_',
+          argsIgnorePattern: '^_', // Optional: ignores unused function arguments too
+          ignoreRestSiblings: true, // Crucial for destructuring!
+        },
+      ],
     },
   },
 ]);

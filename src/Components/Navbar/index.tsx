@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../../Store';
-import { logoutUser } from '../../Services/Api/auth';
 import { useApiMutation } from '../../Hooks';
+import { logoutUser } from '../../Services';
 
 export const Navbar = () => {
   const navigate = useNavigate();
