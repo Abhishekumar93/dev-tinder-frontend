@@ -1,7 +1,8 @@
 import { z } from 'zod';
-import type { loginSchema } from '../SchemaValidation';
+import type { loginSchema, signupSchema } from '../SchemaValidation';
 
 export type LoginForm = z.infer<typeof loginSchema>;
+export type SignupForm = z.infer<typeof signupSchema>;
 type LoginWithPwd = { email: string; password: string };
 type LoginWithOtp = { email: string; otp: string };
 export type LoginPayload = LoginWithOtp | LoginWithPwd;

@@ -60,9 +60,7 @@ export const Login = () => {
     <div className="flex justify-center items-center h-[75vh]">
       <div className="card bg-base-200 dark:bg-base-300 w-96 shadow-md">
         <div className="card-body">
-          <h2 className="card-title text-3xl mb-3">
-            <span className="text-center w-100">Login</span>
-          </h2>
+          <h2 className="card-title text-3xl mb-3">Login</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <InputFields
               type="email"
@@ -111,7 +109,7 @@ export const Login = () => {
             <div className="card-actions justify-between mt-4">
               <button
                 type="submit"
-                className={`btn btn-primary bg-base-100 text-black dark:text-white hover:scale-105 transform transition duration-300 ${isDisabled ? 'button-disabled' : ''}`}
+                className={`btn-class ${isDisabled ? 'button-disabled' : ''}`}
               >
                 Login
               </button>

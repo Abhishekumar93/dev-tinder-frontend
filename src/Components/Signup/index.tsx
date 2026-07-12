@@ -1,127 +1,228 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
-import { InputFields } from '../Atoms';
-import type { IUser, LoginForm } from '../../interfacesAndTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema } from '../../SchemaValidation';
-import { loginUser } from '../../Services';
-import { Eye, EyeClosed } from 'lucide-react';
+import { InputFields } from '../Atoms';
+import type { IUser, SignupForm } from '../../interfacesAndTypes';
+import { signupSchema } from '../../SchemaValidation';
 import { useAppStore } from '../../Store';
-import { useApiMutation } from '../../Hooks';
 
 export const Signup = () => {
   const navigate = useNavigate();
-  const { executeMutation, isMutating } = useApiMutation();
   const setUser = useAppStore((state) => state.setUser);
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
 
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid, isDirty },
-    setValue,
-  } = useForm<LoginForm>({
-    resolver: zodResolver(loginSchema),
+    formState: { errors },
+    trigger,
+  } = useForm<SignupForm>({
+    resolver: zodResolver(signupSchema) as never,
     mode: 'onChange',
     defaultValues: {
+      firstName: '',
+      lastName: '',
       email: '',
+      age: undefined,
+      gender: '',
+      bio: '',
+      about: '',
       password: '',
-      loginMethod: 'password',
+      confirmPassword: '',
     },
   });
 
-  const [passwordHidden, setPasswordHidden] = useState(true);
-
-  const currentLoginMethod = useWatch({
+  const passwordValue = useWatch({
     control,
-    name: 'loginMethod',
+    name: 'password',
   });
-  const isDisabled = !isDirty || !isValid || isMutating;
 
-  const handleLoginMethodChange = () => {
-    setValue(
-      'loginMethod',
-      currentLoginMethod === 'password' ? 'otp' : 'password'
-    );
-  };
-  const handlePasswordToggle = () => {
-    setPasswordHidden((prev) => !prev);
-  };
-  const onSubmit: SubmitHandler<LoginForm> = async (data) => {
-    const requestBody = loginUser(data);
-    const response = await executeMutation(requestBody);
-    if (response?.status === 200 && response?.data) {
-      setUser(response.data as IUser);
-      navigate('/');
+  const passwordRequirements = [
+    { label: 'Minimum 8 characters', valid: (passwordValue?.length ?? 0) >= 8 },
+    {
+      label: 'At least 1 uppercase letter',
+      valid: /[A-Z]/.test(passwordValue ?? ''),
+    },
+    {
+      label: 'At least 1 lowercase letter',
+      valid: /[a-z]/.test(passwordValue ?? ''),
+    },
+    { label: 'At least 1 number', valid: /\d/.test(passwordValue ?? '') },
+    {
+      label: 'At least 1 symbol',
+      valid: /[^A-Za-z0-9]/.test(passwordValue ?? ''),
+    },
+  ];
+
+  const handleNext = async () => {
+    const isStepOneValid = await trigger([
+      'firstName',
+      'lastName',
+      'email',
+      'age',
+      'gender',
+      'bio',
+    ]);
+
+    if (isStepOneValid) {
+      setCurrentStep(2);
     }
   };
 
+  const onSubmit: SubmitHandler<SignupForm> = (data) => {
+    setUser({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      age: data.age,
+      email: data.email,
+      gender: data.gender,
+      about: data.about || data.bio,
+    } as IUser);
+    navigate('/');
+  };
+
   return (
-    <div className="flex justify-center items-center h-[75vh]">
-      <div className="card bg-base-200 dark:bg-base-300 w-96 shadow-md">
+    <div className="flex min-h-[75vh] items-center justify-center px-4 py-8">
+      <div className="card w-full max-w-3xl bg-base-200 shadow-md dark:bg-base-300">
         <div className="card-body">
-          <h2 className="card-title text-3xl mb-3">
-            <span className="text-center w-100">Signup</span>
-          </h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <InputFields
-              type="email"
-              label="Email"
-              placeholder="Enter your email"
-              name="email"
-              control={control}
-              error={errors.email?.message}
-            />
-            {currentLoginMethod === 'password' ? (
-              <InputFields
-                type={passwordHidden ? 'password' : 'text'}
-                label="Password"
-                placeholder="Enter your password"
-                name="password"
-                control={control}
-                error={errors.password?.message}
-                iconPosition="end"
-                icon={
-                  passwordHidden ? (
-                    <EyeClosed
-                      width={20}
-                      height={20}
-                      onClick={handlePasswordToggle}
-                      cursor="pointer"
-                    />
-                  ) : (
-                    <Eye
-                      width={20}
-                      height={20}
-                      onClick={handlePasswordToggle}
-                      cursor="pointer"
-                    />
-                  )
-                }
-              />
+          <div className="flex items-center justify-between">
+            <h2 className="card-title text-3xl mb-3">Signup</h2>
+            <ul className="steps steps-horizontal gap-4">
+              <li className={`step ${currentStep >= 1 ? 'step-primary' : ''}`}>
+                Personal Information
+              </li>
+              <li className={`step ${currentStep >= 2 ? 'step-primary' : ''}`}>
+                Password
+              </li>
+            </ul>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {currentStep === 1 ? (
+              <div className="grid gap-4 md:grid-cols-2">
+                <InputFields
+                  label="First Name"
+                  placeholder="Enter your first name"
+                  name="firstName"
+                  control={control}
+                  error={errors.firstName?.message}
+                />
+                <InputFields
+                  label="Last Name"
+                  placeholder="Enter your last name"
+                  name="lastName"
+                  control={control}
+                  error={errors.lastName?.message}
+                />
+                <InputFields
+                  type="email"
+                  label="Email"
+                  placeholder="Enter your email"
+                  name="email"
+                  control={control}
+                  error={errors.email?.message}
+                />
+                <InputFields
+                  type="number"
+                  label="Age"
+                  placeholder="Enter your age"
+                  name="age"
+                  control={control}
+                  error={errors.age?.message}
+                />
+                <InputFields
+                  label="Gender"
+                  name="gender"
+                  control={control}
+                  error={errors.gender?.message}
+                  as="select"
+                  options={[
+                    { label: 'Male', value: 'male' },
+                    { label: 'Female', value: 'female' },
+                    { label: 'Non-binary', value: 'non-binary' },
+                  ]}
+                />
+                <InputFields
+                  label="Bio"
+                  placeholder="A short bio"
+                  name="bio"
+                  control={control}
+                  error={errors.bio?.message}
+                />
+                <div className="md:col-span-2">
+                  <InputFields
+                    label="About"
+                    placeholder="Tell us a bit more about yourself"
+                    name="about"
+                    control={control}
+                    error={errors.about?.message}
+                    as="textarea"
+                    rows={4}
+                  />
+                </div>
+              </div>
             ) : (
-              <InputFields
-                label="OTP"
-                placeholder="Enter your otp"
-                name="otp"
-                control={control}
-                error={errors.otp?.message}
-              />
+              <div className="grid gap-4 md:grid-cols-2">
+                <InputFields
+                  type="password"
+                  label="Password"
+                  placeholder="Create a password"
+                  name="password"
+                  control={control}
+                  error={errors.password?.message}
+                />
+                <InputFields
+                  type="password"
+                  label="Confirm Password"
+                  placeholder="Re-enter your password"
+                  name="confirmPassword"
+                  control={control}
+                  error={errors.confirmPassword?.message}
+                />
+                <div className="md:col-span-2 rounded-box border border-base-300 p-4">
+                  <p className="mb-2 text-sm font-medium">
+                    Password requirements
+                  </p>
+                  <ul className="space-y-2 text-sm">
+                    {passwordRequirements.map((requirement) => (
+                      <li
+                        key={requirement.label}
+                        className={`flex items-center gap-2 ${requirement.valid ? 'text-success' : 'text-base-content/70'}`}
+                      >
+                        <span>{requirement.valid ? '✓' : '•'}</span>
+                        <span>{requirement.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             )}
-            <div className="card-actions justify-between mt-4">
-              <button
-                type="submit"
-                className={`btn btn-primary bg-base-100 text-black dark:text-white hover:scale-105 transform transition duration-300 ${isDisabled ? 'button-disabled' : ''}`}
-              >
-                Login
-              </button>
-              <button
-                type="button"
-                className="text-primary dark:text-primary-content bg-transparent! border-none"
-                onClick={handleLoginMethodChange}
-              >
-                {`Login using ${currentLoginMethod === 'password' ? 'OTP' : 'Password'}`}
-              </button>
+
+            <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
+              {currentStep === 1 && (
+                <button
+                  type="button"
+                  className={`btn-class`}
+                  onClick={handleNext}
+                >
+                  Next
+                </button>
+              )}
+              {currentStep === 2 && (
+                <>
+                  <button
+                    type="button"
+                    className="btn-class"
+                    onClick={() => setCurrentStep(1)}
+                  >
+                    Back
+                  </button>
+                  <button type="submit" className="btn-class">
+                    Sign Up
+                  </button>
+                </>
+              )}
             </div>
           </form>
           <div className="mt-4">
