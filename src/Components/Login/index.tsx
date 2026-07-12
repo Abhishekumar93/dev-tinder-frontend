@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
-import { InputFields } from '../Atoms';
 import type { IUser, LoginForm } from '../../interfacesAndTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../SchemaValidation';
@@ -9,6 +8,7 @@ import { loginUser } from '../../Services';
 import { Eye, EyeClosed } from 'lucide-react';
 import { useAppStore } from '../../Store';
 import { useApiMutation } from '../../Hooks';
+import FormField from '../Atoms/FormField';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ export const Login = () => {
         <div className="card-body">
           <h2 className="card-title text-3xl mb-3">Login</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <InputFields
+            <FormField
               type="email"
               label="Email"
               placeholder="Enter your email"
@@ -71,7 +71,7 @@ export const Login = () => {
               error={errors.email?.message}
             />
             {currentLoginMethod === 'password' ? (
-              <InputFields
+              <FormField
                 type={passwordHidden ? 'password' : 'text'}
                 label="Password"
                 placeholder="Enter your password"
@@ -98,7 +98,7 @@ export const Login = () => {
                 }
               />
             ) : (
-              <InputFields
+              <FormField
                 label="OTP"
                 placeholder="Enter your otp"
                 name="otp"

@@ -1,16 +1,29 @@
 import type { HTMLInputTypeAttribute, ReactNode } from 'react';
-import type { Control, FieldValues, Path } from 'react-hook-form';
-
-export interface InputFieldProps<T extends FieldValues> {
+import type {
+  Control,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+  RegisterOptions,
+} from 'react-hook-form';
+export interface FormFieldProps<T extends FieldValues> {
   type?: HTMLInputTypeAttribute;
   label: string;
   placeholder?: string;
   name: Path<T>;
-  control: Control<T, any, any>;
+  control: Control<T>;
   error?: string;
   icon?: ReactNode;
   iconPosition?: 'start' | 'end';
-  as?: 'input' | 'select' | 'textarea';
+  fieldType?: 'input' | 'select' | 'textarea';
   options?: Array<{ label: string; value: string }>;
   rows?: number;
+  required?: boolean;
+  rules?: RegisterOptions<T, Path<T>>;
+}
+export interface InputFieldProps<
+  T extends FieldValues,
+> extends FormFieldProps<T> {
+  field: ControllerRenderProps<T>;
+  inputId: string;
 }

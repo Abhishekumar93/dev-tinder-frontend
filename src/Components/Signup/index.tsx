@@ -2,15 +2,26 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { InputFields } from '../Atoms';
-import type { IUser, SignupForm } from '../../interfacesAndTypes';
+import type {
+  DisplaySignupPasswordInput,
+  IUser,
+  PasswordFieldType,
+  SignupForm,
+} from '../../interfacesAndTypes';
 import { signupSchema } from '../../SchemaValidation';
 import { useAppStore } from '../../Store';
+import FormField from '../Atoms/FormField';
+import { Eye, EyeClosed } from 'lucide-react';
 
 export const Signup = () => {
   const navigate = useNavigate();
   const setUser = useAppStore((state) => state.setUser);
+
   const [currentStep, setCurrentStep] = useState<1 | 2>(1);
+  const [passwordHiddenField, setPasswordHiddenField] = useState({
+    password: true,
+    confirmPassword: true,
+  });
 
   const {
     handleSubmit,
@@ -81,6 +92,47 @@ export const Signup = () => {
     } as IUser);
     navigate('/');
   };
+  const handlePasswordToggle = (fieldType: PasswordFieldType) => {
+    setPasswordHiddenField((prev) => ({
+      ...prev,
+      [fieldType]: !prev[fieldType],
+    }));
+  };
+  const displayPasswordInput = ({
+    fieldType,
+    label,
+    placeholder,
+  }: DisplaySignupPasswordInput) => {
+    return (
+      <FormField
+        type={passwordHiddenField[fieldType] ? 'password' : 'text'}
+        label={label}
+        placeholder={placeholder}
+        name={fieldType}
+        control={control}
+        error={errors?.[fieldType]?.message}
+        iconPosition="end"
+        icon={
+          passwordHiddenField[fieldType] ? (
+            <EyeClosed
+              width={20}
+              height={20}
+              onClick={() => handlePasswordToggle(fieldType)}
+              cursor="pointer"
+            />
+          ) : (
+            <Eye
+              width={20}
+              height={20}
+              onClick={() => handlePasswordToggle(fieldType)}
+              cursor="pointer"
+            />
+          )
+        }
+        required
+      />
+    );
+  };
 
   return (
     <div className="flex min-h-[75vh] items-center justify-center px-4 py-8">
@@ -101,85 +153,86 @@ export const Signup = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {currentStep === 1 ? (
               <div className="grid gap-4 md:grid-cols-2">
-                <InputFields
+                <FormField
                   label="First Name"
                   placeholder="Enter your first name"
                   name="firstName"
                   control={control}
                   error={errors.firstName?.message}
+                  required
                 />
-                <InputFields
+                <FormField
                   label="Last Name"
                   placeholder="Enter your last name"
                   name="lastName"
                   control={control}
                   error={errors.lastName?.message}
+                  required
                 />
-                <InputFields
+                <FormField
                   type="email"
                   label="Email"
                   placeholder="Enter your email"
                   name="email"
                   control={control}
                   error={errors.email?.message}
+                  required
                 />
-                <InputFields
+                <FormField
                   type="number"
                   label="Age"
                   placeholder="Enter your age"
                   name="age"
                   control={control}
                   error={errors.age?.message}
+                  required
                 />
-                <InputFields
+                <FormField
                   label="Gender"
                   name="gender"
                   control={control}
                   error={errors.gender?.message}
-                  as="select"
+                  fieldType="select"
                   options={[
                     { label: 'Male', value: 'male' },
                     { label: 'Female', value: 'female' },
                     { label: 'Non-binary', value: 'non-binary' },
                   ]}
+                  required
+                  placeholder="Select a gender"
                 />
-                <InputFields
+                <FormField
                   label="Bio"
                   placeholder="A short bio"
                   name="bio"
                   control={control}
                   error={errors.bio?.message}
+                  required
                 />
                 <div className="md:col-span-2">
-                  <InputFields
+                  <FormField
                     label="About"
                     placeholder="Tell us a bit more about yourself"
                     name="about"
                     control={control}
                     error={errors.about?.message}
-                    as="textarea"
+                    fieldType="textarea"
                     rows={4}
                   />
                 </div>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2">
-                <InputFields
-                  type="password"
-                  label="Password"
-                  placeholder="Create a password"
-                  name="password"
-                  control={control}
-                  error={errors.password?.message}
-                />
-                <InputFields
-                  type="password"
-                  label="Confirm Password"
-                  placeholder="Re-enter your password"
-                  name="confirmPassword"
-                  control={control}
-                  error={errors.confirmPassword?.message}
-                />
+                {displayPasswordInput({
+                  fieldType: 'password',
+                  label: 'Password',
+                  placeholder: 'Enter password',
+                })}
+                {displayPasswordInput({
+                  fieldType: 'confirmPassword',
+                  label: 'Confirm Password',
+                  placeholder: 'Re-enter your password',
+                })}
                 <div className="md:col-span-2 rounded-box border border-base-300 p-4">
                   <p className="mb-2 text-sm font-medium">
                     Password requirements
@@ -203,7 +256,7 @@ export const Signup = () => {
               {currentStep === 1 && (
                 <button
                   type="button"
-                  className={`btn-class`}
+                  className="btn-class"
                   onClick={handleNext}
                 >
                   Next

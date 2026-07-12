@@ -16,3 +16,10 @@ export interface IUser {
   gender: string;
   about?: string;
 }
+
+export type PasswordFieldType = 'password' | 'confirmPassword';
+export type DisplaySignupPasswordInput = {
+  fieldType: PasswordFieldType;
+  label: string;
+  placeholder: string;
+};
