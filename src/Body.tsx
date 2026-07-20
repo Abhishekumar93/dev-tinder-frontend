@@ -1,8 +1,9 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Footer, Navbar } from './Components';
 import { Toaster } from 'sonner';
 import { useEffect } from 'react';
 import { useAppStore } from './Store';
+import Navbar from './Components/Navbar';
+import Footer from './Components/Footer';
 
 const Body = () => {
   const navigate = useNavigate();

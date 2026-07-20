@@ -1,24 +1,33 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Body from './Body';
-import { Login, Signup } from './Components';
 import { ProtectedRoute, PublicRoute } from './Routes';
+import { lazy, Suspense } from 'react';
+import Loader from './Components/Atoms/Loader';
+
+const Login = lazy(() => import('./Components/Login'));
+const Signup = lazy(() => import('./Components/Signup'));
+const Profile = lazy(() => import('./Components/Profile'));
+const Feed = lazy(() => import('./Components/Feed'));
 
 function App() {
   return (
     <BrowserRouter basename="/">
-      <Routes>
-        <Route path="/" element={<Body />}>
-          <Route element={<PublicRoute />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<Body />}>
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Route>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings" element={<h1>Settings</h1>} />
+              <Route path="/feed" element={<Feed />} />
+              <Route path="/" element={<h1>Hello World</h1>} />
+            </Route>
           </Route>
-          <Route element={<ProtectedRoute />}>
-            <Route path="/profile" element={<h1>Profile</h1>} />
-            <Route path="/settings" element={<h1>Settings</h1>} />
-            <Route path="/" element={<h1>Hello World</h1>} />
-          </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

@@ -10,7 +10,7 @@ import { useAppStore } from '../../Store';
 import { useApiMutation } from '../../Hooks';
 import FormField from '../Atoms/FormField';
 
-export const Login = () => {
+const Login = () => {
   const navigate = useNavigate();
   const { executeMutation, isMutating } = useApiMutation();
   const setUser = useAppStore((state) => state.setUser);
@@ -52,7 +52,7 @@ export const Login = () => {
     const response = await executeMutation(requestBody);
     if (response?.status === 200 && response?.data) {
       setUser(response.data as IUser);
-      navigate('/');
+      navigate('/feed');
     }
   };
 
@@ -133,3 +133,5 @@ export const Login = () => {
     </div>
   );
 };
+
+export default Login;

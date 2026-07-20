@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppStore } from '../../Store';
 import { useApiMutation } from '../../Hooks';
 import { logoutUser } from '../../Services';
 
-export const Navbar = () => {
+const Navbar = () => {
   const navigate = useNavigate();
   const { executeMutation, isMutating } = useApiMutation();
   const user = useAppStore((state) => state.user);
@@ -24,12 +24,12 @@ export const Navbar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
-        <a
+        <Link
+          to="/"
           className="btn btn-ghost text-xl hover:bg-transparent hover:border-none hover:scale-105 transform transition duration-300"
-          href="/"
         >
           <span className="text-teal-700 dark:text-teal-300">Dev Tinder</span>
-        </a>
+        </Link>
       </div>
       <div className="dropdown dropdown-end">
         <button className="avatar padding-0">
@@ -48,6 +48,14 @@ export const Navbar = () => {
           className="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow"
         >
           <li>
+            <Link
+              to="/profile"
+              className="text-base py-[0.6rem] px-[1.2rem] hover:bg-transparent hover:text-gray-400!"
+            >
+              Profile
+            </Link>
+          </li>
+          <li>
             <button
               className={`bg-transparent border-none ${isMutating ? 'button-disabled' : ''}`}
               onClick={handleProfileAuth}
@@ -60,3 +68,5 @@ export const Navbar = () => {
     </div>
   );
 };
+
+export default Navbar;

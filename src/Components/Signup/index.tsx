@@ -13,7 +13,7 @@ import { Eye, EyeClosed } from 'lucide-react';
 import { signupUser } from '../../Services';
 import { useApiMutation } from '../../Hooks';
 
-export const Signup = () => {
+const Signup = () => {
   const navigate = useNavigate();
   const { executeMutation, isMutating } = useApiMutation();
 
@@ -286,3 +286,5 @@ export const Signup = () => {
     </div>
   );
 };
+
+export default Signup;
