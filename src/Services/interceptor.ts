@@ -23,8 +23,7 @@ apiClient.interceptors.response.use(
   (error: unknown) => {
     if (isUnauthorizedError(error) && !isHandlingUnauthorized) {
       isHandlingUnauthorized = true;
-      const logoutUser = useAppStore((state) => state.logoutUser);
-      logoutUser();
+      useAppStore.getState().logoutUser();
       if (location.pathname !== '/login') location.replace('/login');
     }
 

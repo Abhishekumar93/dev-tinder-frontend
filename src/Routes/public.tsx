@@ -4,5 +4,5 @@ import { useIsUserAuthenticated } from '../Hooks';
 export const PublicRoute = () => {
   const loggedInUser = useIsUserAuthenticated();
 
-  return loggedInUser ? <Navigate to="/" replace /> : <Outlet />;
+  return loggedInUser ? <Navigate to="/feed" replace /> : <Outlet />;
 };
