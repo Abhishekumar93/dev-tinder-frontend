@@ -8,4 +8,5 @@ export const HTTP_METHOD = {
 
 export const API_BASE_URL = {
   auth: '/auth',
+  user: '/user',
 };

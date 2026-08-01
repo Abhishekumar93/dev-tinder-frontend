@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
-import type { IUser, LoginForm } from '../../interfacesAndTypes';
+import type { IUserProfile, LoginForm } from '../../interfacesAndTypes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../SchemaValidation';
 import { loginUser } from '../../Services';
@@ -51,7 +51,7 @@ const Login = () => {
     const requestBody = loginUser(data);
     const response = await executeMutation(requestBody);
     if (response?.status === 200 && response?.data) {
-      setUser(response.data as IUser);
+      setUser(response.data as IUserProfile);
       navigate('/feed');
     }
   };

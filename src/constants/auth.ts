@@ -7,4 +7,6 @@ export const AUTH_CONSTANTS = {
   LOGIN_FAILED: 'Login failed. Please try again.',
   LOGOUT_FAILED: 'Logout failed. Please try again.',
   SIGNUP_FAILED: 'Signup failed. Please try again.',
+  PROFILE_UPDATE_FAILED: 'Profile update failed. Please try again.',
+  PROFILE_UPDATE_SUCCESS: 'Profile updated successfully.',
 };

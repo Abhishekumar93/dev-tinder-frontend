@@ -7,6 +7,7 @@ const InputField = <T extends FieldValues>({
   type = 'text',
   placeholder,
   error,
+  min,
 }: InputFieldProps<T>) => (
   <input
     id={inputId}
@@ -15,6 +16,7 @@ const InputField = <T extends FieldValues>({
     placeholder={placeholder}
     aria-invalid={Boolean(error)}
     aria-describedby={error ? `${inputId}-error` : undefined}
+    min={min}
     {...field}
   />
 );

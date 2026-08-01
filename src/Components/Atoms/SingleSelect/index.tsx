@@ -10,7 +10,7 @@ const SingleSelect = <T extends FieldValues>({
 }: InputFieldProps<T>) => (
   <select
     id={inputId}
-    className={`select w-full ${error ? 'select-error' : ''}`}
+    className={`select w-full cursor-pointer ${error ? 'select-error' : ''}`}
     aria-invalid={Boolean(error)}
     aria-describedby={error ? `${inputId}-error` : undefined}
     {...field}

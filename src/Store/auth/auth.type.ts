@@ -1,7 +1,7 @@
-import type { IUser } from '../../interfacesAndTypes';
+import type { IUserProfile } from '../../interfacesAndTypes';
 
 export interface AuthSlice {
-  user: IUser | null;
-  setUser: (user: IUser) => void;
+  user: IUserProfile | null;
+  setUser: (user: IUserProfile) => void;
   logoutUser: () => void;
 }

@@ -20,6 +20,7 @@ export interface FormFieldProps<T extends FieldValues> {
   rows?: number;
   required?: boolean;
   rules?: RegisterOptions<T, Path<T>>;
+  min?: number;
 }
 export interface InputFieldProps<
   T extends FieldValues,

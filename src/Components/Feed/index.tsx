@@ -3,15 +3,13 @@ import { useApiQuery } from '../../Hooks/useApiQuery';
 import Loader from '../Atoms/Loader';
 import type { IUserProfile } from '../../interfacesAndTypes';
 import type { IApiListResponse } from '../../interfacesAndTypes/response';
+import { getUserFeed } from '../../Services';
 
 const UserCard = lazy(() => import('../Atoms/UserCard'));
 
 const Feed = () => {
-  const { data, isLoading, error } = useApiQuery<IUserProfile>({
-    url: '/user/feed',
-    displayErrorToast: true,
-    displaySuccessToast: true,
-  });
+  const feedQuery = getUserFeed();
+  const { data, isLoading, error } = useApiQuery<IUserProfile>(feedQuery);
 
   if (isLoading) return <Loader />;
   if (error)
