@@ -25,4 +25,4 @@ export type DisplaySignupPasswordInput = {
   placeholder: string;
 };
 export type SignupPayload = Omit<SignupForm, 'confirmPassword'>;
-export type IUserProfile = IUser & { _id: string };
+export type IUserProfile = IUser & { _id: string; showCtas?: boolean };

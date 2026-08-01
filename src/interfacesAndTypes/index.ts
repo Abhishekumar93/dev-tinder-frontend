@@ -15,3 +15,4 @@ export type {
   ApiQuery,
   QueryKey,
 } from './response';
+export type { IUserDetails } from './user-details';

@@ -8,6 +8,7 @@ const Login = lazy(() => import('./Components/Login'));
 const Signup = lazy(() => import('./Components/Signup'));
 const Profile = lazy(() => import('./Components/Profile'));
 const Feed = lazy(() => import('./Components/Feed'));
+const Connections = lazy(() => import('./Components/Connections'));
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
             </Route>
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<Profile />} />
-              <Route path="/settings" element={<h1>Settings</h1>} />
+              <Route path="/connections" element={<Connections />} />
               <Route path="/feed" element={<Feed />} />
               <Route path="/" element={<h1>Hello World</h1>} />
             </Route>

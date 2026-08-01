@@ -13,6 +13,14 @@ export const getUserFeed = () => {
   };
 };
 
+export const getAllConnections = () => {
+  return {
+    url: `${user}/connections`,
+    displayErrorToast: true,
+    displaySuccessToast: true,
+  };
+};
+
 export const updateUserProfile = (userProfile: IUser): ApiMutation<IUser> => {
   const profilePayload = { ...userProfile };
   profilePayload.age = Number(profilePayload.age);

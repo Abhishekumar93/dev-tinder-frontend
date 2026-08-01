@@ -56,6 +56,14 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
+            <Link
+              to="/connections"
+              className="text-sm text-gray-700! dark:text-gray-200!  py-[0.6rem] px-[1.2rem] hover:bg-transparent hover:text-gray-600! dark:hover:text-gray-100!"
+            >
+              Connections
+            </Link>
+          </li>
+          <li>
             <button
               className={`bg-transparent border-none ${isMutating ? 'button-disabled' : ''}`}
               onClick={handleProfileAuth}

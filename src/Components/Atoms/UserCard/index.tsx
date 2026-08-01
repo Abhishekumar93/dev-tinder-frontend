@@ -8,8 +8,10 @@ const UserCard = ({
   lastName,
   profilePic,
   bio,
+  showCtas = true,
 }: IUserProfile) => {
   const userGender = USER_GENDER[gender as keyof typeof USER_GENDER];
+  const profileGender = userGender ? `${userGender}, ` : '';
 
   return (
     <div className="card bg-base-100 dark:bg-gray-950 w-96 shadow-sm hover:scale-105 transform transition duration-300">
@@ -25,12 +27,14 @@ const UserCard = ({
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{`${firstName} ${lastName} (${userGender}, ${age})`}</h2>
+        <h2 className="card-title">{`${firstName} ${lastName} (${profileGender}${age})`}</h2>
         <p>{bio}</p>
-        <div className="card-actions justify-between mt-1">
-          <button className="btn btn-error bg-red-400!">Ignore</button>
-          <button className="btn btn-primary">Send Request</button>
-        </div>
+        {showCtas && (
+          <div className="card-actions justify-between mt-1">
+            <button className="btn btn-error bg-red-400!">Ignore</button>
+            <button className="btn btn-primary">Send Request</button>
+          </div>
+        )}
       </div>
     </div>
   );
