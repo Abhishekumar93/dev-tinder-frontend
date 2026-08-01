@@ -5,7 +5,8 @@ import { swrClient } from '../Services/swr-client';
 import { handleErrorToast, handleSuccessToast } from '../utils.ts/api-response';
 
 export const useApiMutation = <
-  TResponse extends MutationResponse<unknown> = MutationResponse<unknown>,
+  TData = unknown,
+  TResponse extends MutationResponse<TData> = MutationResponse<TData>,
   TPayload = unknown,
 >() => {
   const instanceId = useId();

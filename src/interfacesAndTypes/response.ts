@@ -10,7 +10,7 @@ export interface IApiResponse<T> extends IMessageInResponse {
 export interface IApiListResponse<T> extends IMessageInResponse {
   data?: {
     count: number;
-    records: T;
+    records: T[];
   };
 }
 

@@ -14,6 +14,7 @@ export interface IUser {
   email: string;
   profilePic?: string;
   gender: string;
+  bio: string;
   about?: string;
 }
 
@@ -24,3 +25,4 @@ export type DisplaySignupPasswordInput = {
   placeholder: string;
 };
 export type SignupPayload = Omit<SignupForm, 'confirmPassword'>;
+export type IUserProfile = IUser & { _id: string };

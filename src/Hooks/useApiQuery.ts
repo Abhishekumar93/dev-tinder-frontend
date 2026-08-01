@@ -8,7 +8,8 @@ import { swrClient } from '../Services/swr-client';
 import { handleErrorToast, handleSuccessToast } from '../utils.ts/api-response';
 
 export const useApiQuery = <
-  TResponse extends MutationResponse<unknown> = MutationResponse<unknown>,
+  TData = unknown,
+  TResponse extends MutationResponse<TData> = MutationResponse<TData>,
 >(
   options: ApiQuery
 ) => {
@@ -45,6 +46,9 @@ export const useApiQuery = <
     onError(error) {
       handleErrorToast({ displayErrorToast, error, errorToastMessage });
     },
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    refreshInterval: 0,
     ...swrConfig,
   });
 

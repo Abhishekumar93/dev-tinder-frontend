@@ -7,6 +7,7 @@ export type {
   DisplaySignupPasswordInput,
   PasswordFieldType,
   SignupPayload,
+  IUserProfile,
 } from './auth';
 export type {
   MutationResponse,

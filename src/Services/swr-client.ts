@@ -9,11 +9,11 @@ export type MutationKey = [
   data?: unknown,
 ];
 
-export type SwrClientResponse<T extends MutationResponse<unknown>> = T & {
+export type SwrClientResponse<T extends MutationResponse<any>> = T & {
   status: number;
 };
 
-export const swrClient = async <T extends MutationResponse<unknown>>(
+export const swrClient = async <T extends MutationResponse<any>>(
   key: string | MutationKey
 ): Promise<SwrClientResponse<T>> => {
   // 1. If it's a simple string, default to a standard GET request

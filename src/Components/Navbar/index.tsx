@@ -50,7 +50,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/profile"
-              className="text-base py-[0.6rem] px-[1.2rem] hover:bg-transparent hover:text-gray-400!"
+              className="text-sm text-gray-700! dark:text-gray-200!  py-[0.6rem] px-[1.2rem] hover:bg-transparent hover:text-gray-600! dark:hover:text-gray-100!"
             >
               Profile
             </Link>
