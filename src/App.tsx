@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Body from './Body';
 import { ProtectedRoute, PublicRoute } from './Routes';
 import { lazy, Suspense } from 'react';
@@ -24,7 +24,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections />} />
               <Route path="/feed" element={<Feed />} />
-              <Route path="/" element={<h1>Hello World</h1>} />
+              <Route path="/" element={<Navigate to="/feed" replace />} />
             </Route>
           </Route>
         </Routes>

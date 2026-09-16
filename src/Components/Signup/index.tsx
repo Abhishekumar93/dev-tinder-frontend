@@ -107,21 +107,18 @@ const Signup = () => {
         error={errors?.[fieldType]?.message}
         iconPosition="end"
         icon={
-          passwordHiddenField[fieldType] ? (
-            <EyeClosed
-              width={20}
-              height={20}
-              onClick={() => handlePasswordToggle(fieldType)}
-              cursor="pointer"
-            />
-          ) : (
-            <Eye
-              width={20}
-              height={20}
-              onClick={() => handlePasswordToggle(fieldType)}
-              cursor="pointer"
-            />
-          )
+          <button
+            type="button"
+            aria-label={passwordHiddenField[fieldType] ? 'Show password' : 'Hide password'}
+            onClick={() => handlePasswordToggle(fieldType)}
+            className="bg-transparent border-none cursor-pointer p-0 flex items-center"
+          >
+            {passwordHiddenField[fieldType] ? (
+              <EyeClosed width={20} height={20} />
+            ) : (
+              <Eye width={20} height={20} />
+            )}
+          </button>
         }
         required
       />
@@ -268,6 +265,8 @@ const Signup = () => {
                   <button
                     type="submit"
                     className={`btn-class ${isMutating ? 'button-disabled' : ''}`}
+                    disabled={isMutating}
+                    aria-disabled={isMutating}
                   >
                     Sign Up
                   </button>

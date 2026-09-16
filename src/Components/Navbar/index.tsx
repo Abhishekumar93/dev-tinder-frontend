@@ -32,7 +32,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="dropdown dropdown-end">
-        <button className="avatar padding-0">
+        <button className="avatar padding-0" aria-label="Open user menu" aria-haspopup="true">
           <div className="w-10 h-10 rounded-full">
             <img
               alt={user ? `${user.firstName}_${user.lastName}` : 'Profile Pic'}
@@ -67,6 +67,8 @@ const Navbar = () => {
             <button
               className={`bg-transparent border-none ${isMutating ? 'button-disabled' : ''}`}
               onClick={handleProfileAuth}
+              disabled={isMutating}
+              aria-disabled={isMutating}
             >
               {user ? 'Logout' : 'Login'}
             </button>

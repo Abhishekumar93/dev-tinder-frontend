@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'coverage']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -21,7 +21,7 @@ export default defineConfig([
     },
     rules: {
       'react-hooks/exhaustive-deps': 'off',
-      'typescript-eslint/no-unused-vars': [
+      '@typescript-eslint/no-unused-vars': [
         'error',
         {
           varsIgnorePattern: '^_',
@@ -31,4 +31,19 @@ export default defineConfig([
       ],
     },
   },
+  // Test files: add vitest globals and relax component-export rule
+  {
+    files: ['src/test/**/*.{ts,tsx}', '**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+    rules: {
+      'react-refresh/only-export-components': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
 ]);
+

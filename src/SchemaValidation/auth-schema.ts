@@ -57,4 +57,24 @@ export const signupSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
+  })
+  .refine((data) => data.password.length >= 8, {
+    message: 'Password must be at least 8 characters',
+    path: ['password'],
+  })
+  .refine((data) => /[A-Z]/.test(data.password), {
+    message: 'Password must contain at least 1 uppercase letter',
+    path: ['password'],
+  })
+  .refine((data) => /[a-z]/.test(data.password), {
+    message: 'Password must contain at least 1 lowercase letter',
+    path: ['password'],
+  })
+  .refine((data) => /\d/.test(data.password), {
+    message: 'Password must contain at least 1 number',
+    path: ['password'],
+  })
+  .refine((data) => /[^A-Za-z0-9]/.test(data.password), {
+    message: 'Password must contain at least 1 symbol',
+    path: ['password'],
   });

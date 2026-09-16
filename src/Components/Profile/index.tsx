@@ -33,7 +33,6 @@ const Profile = () => {
 
   const onSubmit = async (data: IUser) => {
     const requestBody = updateUserProfile(data);
-    console.log(requestBody, 'devtinder Form submitted:', data);
     const response = await executeMutation(requestBody);
     if (response?.status === 200 && response?.data) {
       setUser(response.data as IUserProfile);
@@ -83,6 +82,8 @@ const Profile = () => {
                 <button
                   type="submit"
                   className={`btn-class ${isDisabled ? 'button-disabled' : ''}`}
+                  disabled={isDisabled}
+                  aria-disabled={isDisabled}
                 >
                   Update Profile
                 </button>

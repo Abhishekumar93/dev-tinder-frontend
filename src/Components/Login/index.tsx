@@ -80,21 +80,18 @@ const Login = () => {
                 error={errors.password?.message}
                 iconPosition="end"
                 icon={
-                  passwordHidden ? (
-                    <EyeClosed
-                      width={20}
-                      height={20}
-                      onClick={handlePasswordToggle}
-                      cursor="pointer"
-                    />
-                  ) : (
-                    <Eye
-                      width={20}
-                      height={20}
-                      onClick={handlePasswordToggle}
-                      cursor="pointer"
-                    />
-                  )
+                  <button
+                    type="button"
+                    aria-label={passwordHidden ? 'Show password' : 'Hide password'}
+                    onClick={handlePasswordToggle}
+                    className="bg-transparent border-none cursor-pointer p-0 flex items-center"
+                  >
+                    {passwordHidden ? (
+                      <EyeClosed width={20} height={20} />
+                    ) : (
+                      <Eye width={20} height={20} />
+                    )}
+                  </button>
                 }
               />
             ) : (
@@ -110,6 +107,8 @@ const Login = () => {
               <button
                 type="submit"
                 className={`btn-class ${isDisabled ? 'button-disabled' : ''}`}
+                disabled={isDisabled}
+                aria-disabled={isDisabled}
               >
                 Login
               </button>
