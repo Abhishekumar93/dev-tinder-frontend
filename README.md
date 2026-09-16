@@ -1,73 +1,186 @@
-# React + TypeScript + Vite
+# 🔥 DevTinder Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive networking platform crafted for software engineers and developers to discover peers, connect, and collaborate. Built with **React 19**, **TypeScript**, **Vite**, **Tailwind CSS**, and **Zustand**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Overview
 
-## React Compiler
+**DevTinder** brings the discovery-and-match model to the developer community. Developers can create personalized profiles, explore a curated feed of other developers, establish connections, and expand their technical network.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **🔐 Robust Authentication & Session Handling**
+  - Dual login modes: standard Password authentication & One-Time Password (OTP) login.
+  - Multi-step signup flow with comprehensive input validation.
+  - Client-side route protection (`ProtectedRoute` & `PublicRoute`) with automatic session checks and redirect handling.
+  - Persistent auth state using Zustand storage persistence.
+  - Global Axios interceptors for handling credentials and automatic logout on 401 unauthorized responses.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **💻 Developer Feed (`/feed`)**
+  - Explore fellow developers with interactive user cards.
+  - View key details including bio, technical background, age, and profile pictures.
+  - Connect with or pass on developer profiles.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **🤝 Connections Management (`/connections`)**
+  - View all accepted developer connections and network in one dedicated space.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **🎨 Live Profile Editor (`/profile`)**
+  - Edit personal and professional information (Name, Age, Gender, Bio, About).
+  - Real-time side-by-side **Live Profile Preview Card** that reflects updates instantly as you type.
+
+- **⚡ Modern & Accessible UI/UX**
+  - Styled with **Tailwind CSS v4** and **DaisyUI v5** components.
+  - Responsive design supporting dark and light themes.
+  - Toast notifications powered by **Sonner** for real-time feedback on API operations.
+  - Fast page loads with code-splitting via `React.lazy` and `Suspense`.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+|---|---|
+| **Core** | [React 19](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), [Vite 7](https://vitejs.dev/) with SWC |
+| **Styling & UI** | [Tailwind CSS v4](https://tailwindcss.com/), [DaisyUI v5](https://daisyui.com/), [Lucide React](https://lucide.dev/) |
+| **State Management** | [Zustand](https://zustand-demo.pmnd.rs/) (with `persist` & `devtools` middleware) |
+| **Data Fetching & API** | [SWR](https://swr.vercel.app/), [Axios](https://axios-http.com/) |
+| **Forms & Validation** | [React Hook Form](https://react-hook-form.com/), [Zod](https://zod.dev/), `@hookform/resolvers` |
+| **Routing** | [React Router v7](https://reactrouter.com/) |
+| **Testing** | [Vitest](https://vitest.dev/), [React Testing Library](https://testing-library.com/), [MSW (Mock Service Worker)](https://mswjs.io/) |
+| **Notifications** | [Sonner](https://sonner.emilkowal.ski/) |
+
+---
+
+## 📁 Project Structure
+
+```text
+dev-tinder-frontend/
+├── public/                 # Static assets
+├── src/
+│   ├── Components/         # React UI components
+│   │   ├── Atoms/          # Reusable atomic UI (FormField, InputField, UserCard, Loader, etc.)
+│   │   ├── Connections/    # Connections page
+│   │   ├── Feed/           # Developer feed page
+│   │   ├── Footer/         # App footer
+│   │   ├── Login/          # Password & OTP login component
+│   │   ├── Navbar/         # Main navigation bar with profile menu
+│   │   ├── Profile/        # Profile editor with live preview card
+│   │   ├── Signup/         # Multi-step signup form
+│   │   └── UserDetails/    # Shared user feed/connections display list
+│   ├── Hooks/              # Custom hooks (`useApiQuery`, `useApiMutation`, `useIsUserAuthenticated`)
+│   ├── Routes/             # Route guards (`ProtectedRoute`, `PublicRoute`)
+│   ├── SchemaValidation/   # Zod validation schemas (Login, Signup, Profile)
+│   ├── Services/           # Axios interceptors, SWR client, and API service functions
+│   │   └── Api/            # Auth & User API definitions
+│   ├── Store/              # Zustand global store & auth slices
+│   ├── constants/          # Application constants & enum definitions
+│   ├── interfacesAndTypes/ # TypeScript interfaces and type definitions
+│   ├── test/               # Vitest & React Testing Library test suites
+│   │   ├── atoms/          # Unit tests for atomic components
+│   │   ├── components/     # Integration tests for page components
+│   │   ├── fixtures/       # Mock data fixtures
+│   │   ├── hooks/          # Custom hook tests
+│   │   ├── integration/    # Full app routing and integration tests
+│   │   ├── schemas/        # Zod schema validation tests
+│   │   ├── services/       # Service & interceptor tests
+│   │   ├── store/          # Zustand store tests
+│   │   ├── handlers.ts     # MSW request handlers
+│   │   └── server.ts       # MSW mock node server setup
+│   ├── App.tsx             # Route definitions and layout setup
+│   ├── Body.tsx            # Main layout wrapper (Navbar, Outlet, Footer, Toaster)
+│   ├── main.tsx            # React application entry point
+│   └── index.css           # Global stylesheet & Tailwind CSS configurations
+├── .env                    # Environment variables
+├── eslint.config.js        # ESLint configuration
+├── tsconfig.json           # TypeScript configuration
+└── vite.config.ts          # Vite configuration & Vitest setup
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (version 18+ recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) / [pnpm](https://pnpm.io/)
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/dev-tinder-frontend.git
+cd dev-tinder-frontend
 ```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the root directory (or update the existing one):
+
+```env
+VITE_APP_NODE_ENV=development
+VITE_API_BASE_URL=http://localhost:8000/api/
+```
+
+### 4. Run Development Server
+
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`.
+
+---
+
+## 🧪 Testing
+
+The repository includes a comprehensive testing suite using **Vitest**, **React Testing Library**, and **MSW**:
+
+```bash
+# Run all tests once
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+---
+
+## 📦 Building for Production
+
+To create an optimized production build:
+
+```bash
+npm run build
+```
+
+To locally preview the production build:
+
+```bash
+npm run preview
+```
+
+---
+
+## 🧹 Code Quality & Linting
+
+```bash
+npm run lint
+```
+
+---
+
+## 📄 License
+
+This project is private / open for development and learning purposes.
